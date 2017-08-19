@@ -46,10 +46,10 @@ const plugin: IPlugin = {
       // Renderer
       if (page.pluginsData['school'].math) {
         md = md.use(require('markdown-it-math'), {
-          inlineOpen: '$%$',
-          inlineClose: '$%$',
-          blockOpen: '$%$$',
-          blockClose: '$$%$'
+          inlineOpen: '%$',
+          inlineClose: '$%',
+          blockOpen: '%$$',
+          blockClose: '$$%'
         })
       }
       if (page.pluginsData['school'].chem) {
@@ -57,11 +57,11 @@ const plugin: IPlugin = {
       }
 
       // Script loading
-      if (page.pluginsData['school'].math && !page.pluginsData['school'].chem) {
-        page.pluginsData['school'].header = fs.readFileSync(__dirname + '/mathonly.html', 'utf8')
-      }
-      if (page.pluginsData['school'].math && page.pluginsData['school'].chem) {
+      if (page.pluginsData['school'].chem) {
         page.pluginsData['school'].header = fs.readFileSync(__dirname + '/both.html', 'utf8')
+      }
+      if (page.pluginsData['school'].math) {
+        page.pluginsData['school'].header = fs.readFileSync(__dirname + '/mathonly.html', 'utf8')
       }
     }
 
