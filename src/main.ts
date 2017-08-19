@@ -30,11 +30,11 @@ const plugin: IPlugin = {
       }
 
       // Script loading
-      if (post.pluginsData['school'].math && !post.pluginsData['school'].math) {
-        post.pluginsData['school'].header = fs.readFileSync('mathonly.html', 'utf8')
+      if (post.pluginsData['school'].math && !post.pluginsData['school'].chem) {
+        post.pluginsData['school'].header = fs.readFileSync(__dirname + '/mathonly.html', 'utf8')
       }
-      if (post.pluginsData['school'].math && post.pluginsData['school'].math) {
-        post.pluginsData['school'].header = fs.readFileSync('both.html', 'utf8')
+      if (post.pluginsData['school'].math && post.pluginsData['school'].chem) {
+        post.pluginsData['school'].header = fs.readFileSync(__dirname + '/both.html', 'utf8')
       }
     }
 
@@ -57,11 +57,11 @@ const plugin: IPlugin = {
       }
 
       // Script loading
-      if (page.pluginsData['school'].math && !page.pluginsData['school'].math) {
-        page.pluginsData['school'].header = fs.readFileSync('mathonly.html', 'utf8')
+      if (page.pluginsData['school'].math && !page.pluginsData['school'].chem) {
+        page.pluginsData['school'].header = fs.readFileSync(__dirname + '/mathonly.html', 'utf8')
       }
-      if (page.pluginsData['school'].math && page.pluginsData['school'].math) {
-        page.pluginsData['school'].header = fs.readFileSync('both.html', 'utf8')
+      if (page.pluginsData['school'].math && page.pluginsData['school'].chem) {
+        page.pluginsData['school'].header = fs.readFileSync(__dirname + '/both.html', 'utf8')
       }
     }
 
