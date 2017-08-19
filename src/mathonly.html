@@ -1,0 +1,95 @@
+<script>
+  /*! modernizr 3.5.0 (Custom Build) | MIT *
+   * https://modernizr.com/download/?-mathml !*/
+  ! function (e, n, t) {
+    function o(e, n) {
+      return typeof e === n
+    }
+
+    function i() {
+      var e, n, t, i, s, a, r;
+      for (var f in l)
+        if (l.hasOwnProperty(f)) {
+          if (e = [], n = l[f], n.name && (e.push(n.name.toLowerCase()), n.options && n.options.aliases && n.options.aliases
+              .length))
+            for (t = 0; t < n.options.aliases.length; t++) e.push(n.options.aliases[t].toLowerCase());
+          for (i = o(n.fn, "function") ? n.fn() : n.fn, s = 0; s < e.length; s++) a = e[s], r = a.split("."), 1 === r.length ?
+            Modernizr[r[0]] = i : (!Modernizr[r[0]] || Modernizr[r[0]] instanceof Boolean || (Modernizr[r[0]] = new Boolean(
+              Modernizr[r[0]])), Modernizr[r[0]][r[1]] = i), d.push((i ? "" : "no-") + r.join("-"))
+        }
+    }
+
+    function s() {
+      return "function" != typeof n.createElement ? n.createElement(arguments[0]) : u ? n.createElementNS.call(n,
+        "http://www.w3.org/2000/svg", arguments[0]) : n.createElement.apply(n, arguments)
+    }
+
+    function a() {
+      var e = n.body;
+      return e || (e = s(u ? "svg" : "body"), e.fake = !0), e
+    }
+
+    function r(e, t, o, i) {
+      var r, l, f, d, u = "modernizr",
+        c = s("div"),
+        m = a();
+      if (parseInt(o, 10))
+        for (; o--;) f = s("div"), f.id = i ? i[o] : u + (o + 1), c.appendChild(f);
+      return r = s("style"), r.type = "text/css", r.id = "s" + u, (m.fake ? m : c).appendChild(r), m.appendChild(c), r.styleSheet ?
+        r.styleSheet.cssText = e : r.appendChild(n.createTextNode(e)), c.id = u, m.fake && (m.style.background = "", m.style
+          .overflow = "hidden", d = p.style.overflow, p.style.overflow = "hidden", p.appendChild(m)), l = t(c, e), m.fake ?
+        (m.parentNode.removeChild(m), p.style.overflow = d, p.offsetHeight) : c.parentNode.removeChild(c), !!l
+    }
+    var l = [],
+      f = {
+        _version: "3.5.0",
+        _config: {
+          classPrefix: "",
+          enableClasses: !0,
+          enableJSClass: !0,
+          usePrefixes: !0
+        },
+        _q: [],
+        on: function (e, n) {
+          var t = this;
+          setTimeout(function () {
+            n(t[e])
+          }, 0)
+        },
+        addTest: function (e, n, t) {
+          l.push({
+            name: e,
+            fn: n,
+            options: t
+          })
+        },
+        addAsyncTest: function (e) {
+          l.push({
+            name: null,
+            fn: e
+          })
+        }
+      },
+      Modernizr = function () {};
+    Modernizr.prototype = f, Modernizr = new Modernizr;
+    var d = [],
+      p = n.documentElement,
+      u = "svg" === p.nodeName.toLowerCase(),
+      c = f.testStyles = r;
+    Modernizr.addTest("mathml", function () {
+      var e;
+      return c("#modernizr{position:absolute;display:inline-block}", function (n) {
+        n.innerHTML += "<math><mfrac><mi>xx</mi><mi>yy</mi></mfrac></math>", e = n.offsetHeight > n.offsetWidth
+      }), e
+    }), i(), delete f.addTest, delete f.addAsyncTest;
+    for (var m = 0; m < Modernizr._q.length; m++) Modernizr._q[m]();
+    e.Modernizr = Modernizr
+  }(window, document);
+
+  if (!Modernizr.mathml) {
+    var mjx = document.createElement('script');
+    mjx.src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=MML_CHTML"
+    document.head.appendChild(mjx)
+  }
+
+</script>
