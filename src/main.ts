@@ -89,14 +89,6 @@ class MudawanahSchool implements IPlugin {
 
   private contextRender(ctx: IPage | IPost, md: MarkdownIt) {
     if (ctx.pluginsData && ctx.pluginsData['school']) {
-      /*const
-        asciimath = ctx.pluginsData['school'].asciimath === undefined ? this.asciimath :
-          ctx.pluginsData['school'].asciimath,
-        texBlock = ctx.pluginsData['school'].texBlock === undefined ? this.texBlock :
-          ctx.pluginsData['school'].texBlock,
-        texInline = ctx.pluginsData['school'].texInline === undefined ? this.texInline :
-          ctx.pluginsData['school'].texInline
-          */
       let css = ''
 
       function do_replace_math(type: 'TeX' | 'inline-TeX' | 'AsciiMath' | 'MathML',
@@ -120,9 +112,8 @@ class MudawanahSchool implements IPlugin {
       do_replace_math('TeX', this.texBlock, ctx.pluginsData['school'].texBlock)
       do_replace_math('inline-TeX', this.texInline, ctx.pluginsData['school'].texInline)
 
-      css = this.ccss.minify(css).style
-
       if (css.length !== 0) {
+        css = this.ccss.minify(css).style
         ctx.pluginsData['school'].header = `<style>${css}</style>`
       }
     }
