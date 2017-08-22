@@ -113,8 +113,7 @@ class MudawanahSchool implements IPlugin {
       do_replace_math('inline-TeX', this.texInline, ctx.pluginsData['school'].texInline)
 
       if (css.length !== 0) {
-        css = this.ccss.minify(css).style
-        ctx.pluginsData['school'].header = `<style>${css}</style>`
+        ctx.pluginsData['school'].header = `<style>${this.ccss.minify(css).styles}</style>`
       }
     }
 
