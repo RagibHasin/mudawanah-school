@@ -36,7 +36,7 @@ class MudawanahSchool implements IPlugin {
   private additionalCss = `.MathJax { font-size: 1.27em; }`
 
   private static replace_math(format: string, delims: string[],
-    type: 'TeX' | 'inline-TeX' | 'AsciiMath', multiline: boolean = false): {
+    type: 'TeX' | 'inline-TeX' | 'AsciiMath', multiline = false): {
       html: string
       css: string
     } {
@@ -80,7 +80,7 @@ class MudawanahSchool implements IPlugin {
             dAsync.loopWhile(() => !done)
           }
           html = html.substr(0, html.length - 4)
-          const forward = this.replace_math(format.substr(idx2 + delims[1].length), delims, type)
+          const forward = this.replace_math(format.substr(idx2 + delims[1].length), delims, type, true)
           return {
             html: format.substring(0, idx1 - 1) + html + forward.html,
             css: css + forward.css
@@ -137,26 +137,28 @@ class MudawanahSchool implements IPlugin {
 
   private contextRender(ctx: IPage | IPost, md: MarkdownIt) {
     if (ctx.pluginsData && ctx.pluginsData['school']) {
-      let css = ''
+      let css = ctx.pluginsData['school'].css || ''
 
       function do_replace_math(type: 'TeX' | 'inline-TeX' | 'AsciiMath',
-        delimsThis: string[] | null, delimsCtx?: string[] | null) {
+        delimsThis: string[] | null, delimsCtx?: string[] | null, multiline = false) {
 
         if (delimsCtx) {
           if (delimsCtx.length === 1) {
             delimsCtx[1] = delimsCtx[0]
           }
-          const res = MudawanahSchool.replace_math(ctx.md, delimsCtx, type)
+          const res = MudawanahSchool.replace_math(ctx.md, delimsCtx, type, multiline)
           ctx.md = res.html
           css += res.css
         } else if (delimsCtx === undefined && delimsThis) {
-          const res = MudawanahSchool.replace_math(ctx.md, delimsThis, type)
+          const res = MudawanahSchool.replace_math(ctx.md, delimsThis, type, multiline)
           ctx.md = res.html
           css += res.css
         }
       }
 
+      do_replace_math('AsciiMath', this.asciimathMulti, ctx.pluginsData['school'].asciimathMulti, true)
       do_replace_math('AsciiMath', this.asciimath, ctx.pluginsData['school'].asciimath)
+      do_replace_math('inline-TeX', this.texMultiline, ctx.pluginsData['school'].texMultiline, true)
       do_replace_math('TeX', this.texBlock, ctx.pluginsData['school'].texBlock)
       do_replace_math('inline-TeX', this.texInline, ctx.pluginsData['school'].texInline)
 
