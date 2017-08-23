@@ -9,12 +9,16 @@ import * as mjx from 'mathjax-node'
 import * as dAsync from 'deasync'
 const cleanCss: any = require('clean-css')
 import { MarkdownIt } from 'markdown-it'
+import { EOL } from 'os'
 
 namespace MudawanahSchool {
   export interface Options {
     asciimath?: string[] | null
+    asciimathMulti?: string[] | null
     texInline?: string[] | null
+    texMultiline?: string[] | null
     texBlock?: string[] | null
+    css?: string
   }
 }
 
@@ -25,33 +29,62 @@ class MudawanahSchool implements IPlugin {
 
   private ccss = new cleanCss({ level: 2 })
   private asciimath: string[] | null = ['%%', '%%']
+  private asciimathMulti: string[] | null = null
   private texInline: string[] | null = ['$$', '$$']
+  private texMultiline: string[] | null = null
   private texBlock: string[] | null = ['$$$', '$$$']
+  private additionalCss = `.MathJax { font-size: 1.27em; }`
 
-  private static replace_math(format: string, delims: string[], type: 'TeX' | 'inline-TeX' | 'AsciiMath' | 'MathML'): {
-    html: string
-    css: string
-  } {
+  private static replace_math(format: string, delims: string[],
+    type: 'TeX' | 'inline-TeX' | 'AsciiMath', multiline: boolean = false): {
+      html: string
+      css: string
+    } {
     const idx1 = format.indexOf(delims[0])
     if (idx1 !== -1) {
       const idx2 = format.indexOf(delims[1], idx1 + delims[0].length)
       if (idx2 !== -1) {
-        let result: mjx.Result = { html: '', css: '' }, done = false
-        mjx.typeset({
-          math: format.substring(idx1 + delims[0].length, idx2),
-          format: type,
-          html: true,
-          css: true
-        }, function (res) {
-          result = res
-          done = true
-        })
-        dAsync.loopWhile(() => !done)
-        const forward = this.replace_math(format.substr(idx2 + delims[1].length), delims, type)
-        if (!result.html) { result.html = '' }
-        return {
-          html: format.substring(0, idx1 - 1) + result.html + forward.html,
-          css: result.css + forward.css
+        if (!multiline) {
+          let result: mjx.Result = { html: '', css: '' }, done = false
+          mjx.typeset({
+            math: format.substring(idx1 + delims[0].length, idx2),
+            format: type,
+            html: true,
+            css: true
+          }, function (res) {
+            result = res
+            done = true
+          })
+          dAsync.loopWhile(() => !done)
+          const forward = this.replace_math(format.substr(idx2 + delims[1].length), delims, type)
+          if (!result.html) { result.html = '' }
+          return {
+            html: format.substring(0, idx1 - 1) + result.html + forward.html,
+            css: result.css + forward.css
+          }
+        } else {
+          let html = '', css = ''
+          const lines = format.substring(idx1 + delims[0].length, idx2).split(EOL)
+          for (const line of lines) {
+            let done = false
+            mjx.typeset({
+              math: line,
+              format: type,
+              html: true,
+              css: true
+            }, function (res) {
+              html += res.html + '<br>'
+              css += res.css
+              done = true
+            })
+            dAsync.loopWhile(() => !done)
+          }
+          html = html.substr(0, html.length - 4)
+          const forward = this.replace_math(format.substr(idx2 + delims[1].length), delims, type)
+          return {
+            html: format.substring(0, idx1 - 1) + html + forward.html,
+            css: css + forward.css
+          }
         }
       } else {
         return { html: format, css: '' }
@@ -84,6 +117,21 @@ class MudawanahSchool implements IPlugin {
           this.texBlock[1] = this.texBlock[0]
         }
       }
+      if (options.asciimathMulti && options.asciimathMulti.length !== 0) {
+        this.asciimathMulti = options.asciimathMulti
+        if (this.asciimathMulti.length === 1) {
+          this.asciimathMulti[1] = this.asciimathMulti[0]
+        }
+      }
+      if (options.texMultiline && options.texMultiline.length !== 0) {
+        this.texMultiline = options.texMultiline
+        if (this.texMultiline.length === 1) {
+          this.texMultiline[1] = this.texMultiline[0]
+        }
+      }
+      if (options.css) {
+        this.additionalCss = options.css
+      }
     }
   }
 
@@ -91,10 +139,10 @@ class MudawanahSchool implements IPlugin {
     if (ctx.pluginsData && ctx.pluginsData['school']) {
       let css = ''
 
-      function do_replace_math(type: 'TeX' | 'inline-TeX' | 'AsciiMath' | 'MathML',
+      function do_replace_math(type: 'TeX' | 'inline-TeX' | 'AsciiMath',
         delimsThis: string[] | null, delimsCtx?: string[] | null) {
 
-        if (delimsCtx != null) {
+        if (delimsCtx) {
           if (delimsCtx.length === 1) {
             delimsCtx[1] = delimsCtx[0]
           }

@@ -1,6 +1,6 @@
 {
   "name": "mudawanah-school",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Math and Chemistry equations support for Mudawanah",
   "main": "./bin/main.js",
   "types": "./bin/main.d.ts",
@@ -44,6 +44,7 @@
     "@types/deasync": "^0.1.0",
     "@types/koa-router": "^7.0.22",
     "@types/markdown-it": "0.0.3",
+    "@types/node": "^8.0.24",
     "eslint": "^4.5.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
