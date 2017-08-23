@@ -1,6 +1,6 @@
 {
   "name": "mudawanah-school",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Math and Chemistry equations support for Mudawanah",
   "main": "./bin/main.js",
   "types": "./bin/main.d.ts",

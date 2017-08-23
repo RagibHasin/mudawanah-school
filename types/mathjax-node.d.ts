@@ -52,13 +52,13 @@ declare module 'mathjax-node' {
     }
   }
 
-  export function config(options: {
-    displayMessages: boolean,       // determines whether Message.Set() calls are logged
-    displayErrors: boolean,         // determines whether error messages are shown on the console
-    undefinedCharError: boolean,    // determines whether "unknown characters" (i.e., no glyph in the configured fonts) are saved in the error array
-    extensions: string | string[],  // a convenience option to add MathJax extensions
-    fontURL: string,                // for webfont urls in the CSS for HTML output
-    MathJax: any
+  export function config(options?: {
+    displayMessages?: boolean,       // determines whether Message.Set() calls are logged
+    displayErrors?: boolean,         // determines whether error messages are shown on the console
+    undefinedCharError?: boolean,    // determines whether "unknown characters" (i.e., no glyph in the configured fonts) are saved in the error array
+    extensions?: string | string[],  // a convenience option to add MathJax extensions
+    fontURL?: string,                // for webfont urls in the CSS for HTML output
+    MathJax?: any
   }): void
 
   export function start(): void

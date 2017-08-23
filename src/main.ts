@@ -19,6 +19,7 @@ namespace MudawanahSchool {
     texMultiline?: string[] | null
     texBlock?: string[] | null
     css?: string
+    scale?: number
   }
 }
 
@@ -131,6 +132,9 @@ class MudawanahSchool implements IPlugin {
       }
       if (options.css) {
         this.additionalCss = options.css
+      }
+      if (options.scale) {
+        mjx.config({ MathJax: { CommonHTML: { scale: options.scale } } })
       }
     }
   }
