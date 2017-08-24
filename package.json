@@ -1,6 +1,6 @@
 {
   "name": "mudawanah-school",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "Math and Chemistry equations support for Mudawanah",
   "main": "./bin/main.js",
   "types": "./bin/main.d.ts",
@@ -33,6 +33,7 @@
   "dependencies": {
     "clean-css": "^4.1.7",
     "deasync": "^0.1.10",
+    "jsdom": "^11.2.0",
     "mathjax-node": "^1.1.1"
   },
   "peerDependencies": {
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@types/deasync": "^0.1.0",
+    "@types/jsdom": "^11.0.1",
     "@types/koa-router": "^7.0.22",
     "@types/markdown-it": "0.0.3",
     "@types/node": "^8.0.24",
