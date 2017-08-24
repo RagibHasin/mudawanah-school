@@ -18,7 +18,6 @@ namespace MudawanahSchool {
     texInline?: string[] | null
     texMultiline?: string[] | null
     texBlock?: string[] | null
-    css?: string
     scale?: number
   }
 }
@@ -34,7 +33,7 @@ class MudawanahSchool implements IPlugin {
   private texInline: string[] | null = ['$$', '$$']
   private texMultiline: string[] | null = null
   private texBlock: string[] | null = ['$$$', '$$$']
-  private additionalCss = `.MathJax { font-size: 1.27em; }`
+  private additionalCss = `.mjx-chtml { font-size: 1.27em; }`
 
   private static replace_math(format: string, delims: string[],
     type: 'TeX' | 'inline-TeX' | 'AsciiMath', multiline = false): {
@@ -64,8 +63,13 @@ class MudawanahSchool implements IPlugin {
             css: result.css + forward.css
           }
         } else {
-          let html = '', css = ''
-          const lines = format.substring(idx1 + delims[0].length, idx2).split(EOL)
+          const subformat = format.substring(idx1 + delims[0].length, idx2)
+          subformat.replace(EOL + EOL, EOL)
+          subformat.replace(EOL + EOL, EOL)
+          subformat.replace(EOL + EOL, EOL)
+          let html = `<span class="mjx-chtml"><span class="mjx-math" aria-label="${subformat}">`
+            , css = ''
+          const lines = subformat.split(EOL)
           for (const line of lines) {
             let done = false
             mjx.typeset({
@@ -74,13 +78,15 @@ class MudawanahSchool implements IPlugin {
               html: true,
               css: true
             }, function (res) {
-              html += res.html + '<br>'
+              if (res.html) {
+                html += res.html.substr(61 + line.length, res.html.length - 75 - line.length) + '<br>'
+              }
               css += res.css
               done = true
             })
             dAsync.loopWhile(() => !done)
           }
-          html = html.substr(0, html.length - 4)
+          html += '</span></span>'
           const forward = this.replace_math(format.substr(idx2 + delims[1].length), delims, type, true)
           return {
             html: format.substring(0, idx1 - 1) + html + forward.html,
@@ -130,18 +136,16 @@ class MudawanahSchool implements IPlugin {
           this.texMultiline[1] = this.texMultiline[0]
         }
       }
-      if (options.css) {
-        this.additionalCss = options.css
-      }
       if (options.scale) {
-        mjx.config({ MathJax: { CommonHTML: { scale: options.scale } } })
+        this.additionalCss = `.mjx-chtml { font-size: ${options.scale}em; }`
       }
     }
   }
 
   private contextRender(ctx: IPage | IPost, md: MarkdownIt) {
     if (ctx.pluginsData && ctx.pluginsData['school']) {
-      let css = ctx.pluginsData['school'].css || ''
+      mjx.config({ MathJax: { CommonHTML: { scale: ctx.pluginsData['school'].scale } } })
+      let css = ''
 
       function do_replace_math(type: 'TeX' | 'inline-TeX' | 'AsciiMath',
         delimsThis: string[] | null, delimsCtx?: string[] | null, multiline = false) {
@@ -166,6 +170,9 @@ class MudawanahSchool implements IPlugin {
       do_replace_math('TeX', this.texBlock, ctx.pluginsData['school'].texBlock)
       do_replace_math('inline-TeX', this.texInline, ctx.pluginsData['school'].texInline)
 
+      css += ctx.pluginsData['school'].scale ?
+        `.mjx-chtml { font-size: ${ctx.pluginsData['school'].scale}em; }` :
+        this.additionalCss
       if (css.length !== 0) {
         ctx.pluginsData['school'].header = `<style>${this.ccss.minify(css).styles}</style>`
       }
