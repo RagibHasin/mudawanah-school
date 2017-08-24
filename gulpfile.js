@@ -1,24 +1,11 @@
 const gulp = require('gulp')
 const merge = require('merge-stream')
 const ts = require('gulp-typescript')
-const html = require('gulp-htmlmin')
 const tslint = require('gulp-tslint')
 
 const dest = './bin'
 
-function buildHeaders() {
-  return gulp.src('src/*.html')
-    .pipe(html({
-      collapseWhitespace: true,
-      minifyJS: true,
-      minifyCSS: true
-    }))
-    .pipe(gulp.dest(dest))
-}
-
-gulp.task('build-headers', buildHeaders)
-
-gulp.task('build', ['build-headers'], () => {
+gulp.task('build', () => {
   const tsProj = ts.createProject('tsconfig.json')
   const tsc = tsProj()
   tsProj.src().pipe(tsc)

@@ -52,7 +52,6 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "gulp": "^3.9.1",
-    "gulp-htmlmin": "^3.0.0",
     "gulp-tslint": "^8.1.2",
     "gulp-typescript": "^3.2.2",
     "merge-stream": "^1.0.1",
