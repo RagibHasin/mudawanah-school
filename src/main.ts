@@ -24,6 +24,7 @@ namespace MudawanahSchool {
 
 class MudawanahSchool implements IPlugin {
 
+  name = 'mudawanah-school'
   postRender = this.contextRender
   pageRender = this.contextRender
 
