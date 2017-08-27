@@ -1,7 +1,5 @@
 # mudawanah-school
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/RagibHasin/mudawanah-school.svg)](https://greenkeeper.io/)
-
 **Math and Chemistry equations support for Mudawanah**.
 
 [![npm](https://img.shields.io/npm/v/mudawanah-school.svg)](https://www.npmjs.com/package/mudawanah-school)
