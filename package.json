@@ -33,7 +33,7 @@
   "dependencies": {
     "clean-css": "^4.1.7",
     "deasync": "^0.1.10",
-    "mathjax-node": "^1.2.0"
+    "mathjax-node": "^2.0.0"
   },
   "peerDependencies": {
     "koa-router": "^7.2.1",
