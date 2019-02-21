@@ -52,7 +52,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "gulp": "^3.9.1",
-    "gulp-tslint": "^8.1.2",
+    "gulp-tslint": "^8.1.4",
     "gulp-typescript": "^3.2.2",
     "merge-stream": "^1.0.1",
     "mudawanah": "^0.3.3",
