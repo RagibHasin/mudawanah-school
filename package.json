@@ -43,7 +43,7 @@
   "devDependencies": {
     "@types/deasync": "^0.1.0",
     "@types/koa-router": "^7.0.23",
-    "@types/markdown-it": "0.0.3",
+    "@types/markdown-it": "0.0.8",
     "@types/node": "^8.0.24",
     "eslint": "^4.5.0",
     "eslint-config-standard": "^10.2.1",
