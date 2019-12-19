@@ -32,7 +32,7 @@
   "license": "MIT",
   "dependencies": {
     "clean-css": "^4.1.7",
-    "deasync": "^0.1.10",
+    "deasync": "^0.1.18",
     "mathjax-node": "^1.2.0"
   },
   "peerDependencies": {
