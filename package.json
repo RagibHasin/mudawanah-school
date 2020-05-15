@@ -41,7 +41,7 @@
     "mudawanah": "^0.3.3"
   },
   "devDependencies": {
-    "@types/deasync": "^0.1.0",
+    "@types/deasync": "^0.1.1",
     "@types/koa-router": "^7.0.23",
     "@types/markdown-it": "0.0.3",
     "@types/node": "^8.0.24",
